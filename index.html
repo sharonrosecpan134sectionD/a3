@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Database Quiz</h1>
+        <div id="quiz">
+            <form id="quizForm">
+                <p id="question"></p>
+                <label><input type="radio" name="option" value="1"> <span id="option1"></span></label><br>
+                <label><input type="radio" name="option" value="2"> <span id="option2"></span></label><br>
+                <label><input type="radio" name="option" value="3"> <span id="option3"></span></label><br>
+                <label><input type="radio" name="option" value="4"> <span id="option4"></span></label><br>
+                <button type="submit">Submit Answer</button>
+            </form>
+            <p id="feedback"></p>
+        </div>
+        <div id="result">
+            <p>Your final score: <span id="score">0</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
