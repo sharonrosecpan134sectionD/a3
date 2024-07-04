@@ -1,61 +1,109 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
+    color: #FFFFFF;
 }
 
-.container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
+.quiz-container {
+    background-color: #2D2D2D;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    text-align: center;
+    border: 3px solid #BB86FC;
 }
 
 h1 {
-    text-align: center;
-    color: #333;
-}
-
-#quizForm {
+    color: #BB86FC;
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #BB86FC;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #1F1F1F;
+    color: #FFFFFF;
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #BB86FC;
     color: white;
     border: none;
     padding: 10px 20px;
-    cursor: pointer;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #3700B3;
 }
 
-#feedback {
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-#result {
+.hidden {
     display: none;
+}
+
+.answer-btn {
+    background-color: #1F1F1F;
+    color: #FFFFFF;
+    border: 1px solid #BB86FC;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.answer-btn:hover {
+    background-color: #3700B3;
+}
+
+.correct {
+    background-color: #03DAC6 !important;
+    color: #000000 !important;
+}
+
+.incorrect {
+    background-color: #CF6679 !important;
+    color: #000000 !important;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #333333;
     margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-#result p {
-    font-weight: bold;
+.progress-bar div {
+    height: 100%;
+    width: 0;
+    background-color: #BB86FC;
+    text-align: center;
+    line-height: 20px;
+    color: #FFFFFF;
+    transition: width 0.3s;
 }
 
-#result span {
-    font-size: 24px;
-    color: #4CAF50;
+#result h2 {
+    color: #BB86FC;
 }

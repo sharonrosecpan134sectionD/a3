@@ -1,92 +1,162 @@
-// Quiz questions and answers about databases
-const quizData = [
+const questions = [
     {
-        question: "Which database type is known for its flexibility and scalability, often used for large-scale applications?",
-        options: ["MySQL", "MongoDB", "SQLite", "PostgreSQL"],
-        answer: 1 // Index of correct answer in options array
+        question: "What is a primary key?",
+        answers: [
+            { text: "A unique identifier for a record", correct: true },
+            { text: "A column used for sorting data", correct: false },
+            { text: "A column that contains duplicate values", correct: false },
+            { text: "A secondary key for indexing", correct: false }
+        ]
     },
     {
-        question: "Which database model organizes data into tables with rows and columns, and uses SQL for querying?",
-        options: ["NoSQL", "Document-oriented", "Relational", "Key-value"],
-        answer: 2
+        question: "What does SQL stand for?",
+        answers: [
+            { text: "Structured Query Language", correct: true },
+            { text: "Simple Query Language", correct: false },
+            { text: "Structured Question Language", correct: false },
+            { text: "Simple Question Language", correct: false }
+        ]
     },
     {
-        question: "Which database system is widely used for mobile and embedded applications due to its lightweight nature?",
-        options: ["MySQL", "MongoDB", "SQLite", "PostgreSQL"],
-        answer: 2
+        question: "What is a foreign key?",
+        answers: [
+            { text: "A key used to open a foreign database", correct: false },
+            { text: "A key that uniquely identifies a record", correct: false },
+            { text: "A key used to link two tables together", correct: true },
+            { text: "A key used for sorting data", correct: false }
+        ]
+    },
+    {
+        question: "What is a join in SQL?",
+        answers: [
+            { text: "A keyword used to combine records from two or more tables", correct: true },
+            { text: "A command to start a transaction", correct: false },
+            { text: "A function to merge two databases", correct: false },
+            { text: "A method to combine multiple queries", correct: false }
+        ]
+    },
+    {
+        question: "What is normalization in databases?",
+        answers: [
+            { text: "Organizing data to reduce redundancy", correct: true },
+            { text: "Creating backup copies of the database", correct: false },
+            { text: "Encrypting data for security", correct: false },
+            { text: "Standardizing data formats", correct: false }
+        ]
+    },
+    {
+        question: "Which SQL statement is used to extract data from a database?",
+        answers: [
+            { text: "SELECT", correct: true },
+            { text: "EXTRACT", correct: false },
+            { text: "OPEN", correct: false },
+            { text: "GET", correct: false }
+        ]
+    },
+    {
+        question: "Which SQL statement is used to update data in a database?",
+        answers: [
+            { text: "UPDATE", correct: true },
+            { text: "SAVE", correct: false },
+            { text: "MODIFY", correct: false },
+            { text: "CHANGE", correct: false }
+        ]
+    },
+    {
+        question: "Which SQL clause is used to filter records?",
+        answers: [
+            { text: "WHERE", correct: true },
+            { text: "FILTER", correct: false },
+            { text: "SEARCH", correct: false },
+            { text: "GROUP BY", correct: false }
+        ]
     }
 ];
 
-let currentQuestion = 0;
+const usernameInput = document.getElementById('username');
+const authBtn = document.getElementById('auth-btn');
+const quizContainer = document.getElementById('quiz');
+const questionContainer = document.getElementById('question-container');
+const nextBtn = document.getElementById('next-btn');
+const resultContainer = document.getElementById('result');
+const scoreElement = document.getElementById('score');
+const progressBar = document.getElementById('progress-bar');
+
+let currentQuestionIndex = 0;
 let score = 0;
 
-const quizForm = document.getElementById('quizForm');
-const questionElement = document.getElementById('question');
-const option1 = document.getElementById('option1');
-const option2 = document.getElementById('option2');
-const option3 = document.getElementById('option3');
-const option4 = document.getElementById('option4');
-const feedbackElement = document.getElementById('feedback');
-const scoreElement = document.getElementById('score');
-const resultDiv = document.getElementById('result');
+authBtn.addEventListener('click', () => {
+    if (usernameInput.value === "student") {
+        document.getElementById('authentication').classList.add('hidden');
+        quizContainer.classList.remove('hidden');
+        showQuestion();
+    } else {
+        alert('Invalid username');
+    }
+});
 
-function displayQuestion() {
-    const q = quizData[currentQuestion];
-    questionElement.textContent = q.question;
-    option1.textContent = q.options[0];
-    option2.textContent = q.options[1];
-    option3.textContent = q.options[2];
-    option4.textContent = q.options[3];
+function showQuestion() {
+    resetState();
+    const currentQuestion = questions[currentQuestionIndex];
+    const questionElement = document.createElement('div');
+    questionElement.textContent = currentQuestion.question;
+    questionContainer.appendChild(questionElement);
+
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.textContent = answer.text;
+        button.classList.add('answer-btn');
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer);
+        questionContainer.appendChild(button);
+    });
+
+    updateProgressBar();
 }
 
-function checkAnswer() {
-    const selectedOption = document.querySelector('input[name="option"]:checked');
-    if (!selectedOption) {
-        alert('Please select an answer!');
-        return;
+function resetState() {
+    nextBtn.classList.add('hidden');
+    while (questionContainer.firstChild) {
+        questionContainer.removeChild(questionContainer.firstChild);
     }
+}
 
-    const selectedAnswer = Number(selectedOption.value);
-    const correctAnswer = quizData[currentQuestion].answer;
-
-    if (selectedAnswer === correctAnswer) {
-        feedbackElement.style.color = "green";
-        feedbackElement.textContent = "Correct!";
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+    if (correct) {
+        selectedButton.classList.add('correct');
         score++;
     } else {
-        feedbackElement.style.color = "red";
-        feedbackElement.textContent = "Wrong!";
+        selectedButton.classList.add('incorrect');
     }
+    Array.from(questionContainer.children).forEach(button => {
+        if (button.dataset.correct) {
+            button.classList.add('correct');
+        }
+        button.disabled = true;
+    });
+    nextBtn.classList.remove('hidden');
+}
 
-    currentQuestion++;
-    selectedOption.checked = false;
+function updateProgressBar() {
+    const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progressBar.innerHTML = `<div style="width: ${progress}%"></div>`;
+}
 
-    if (currentQuestion < quizData.length) {
-        displayQuestion();
+nextBtn.addEventListener('click', () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
     } else {
         showResult();
     }
-}
+});
 
 function showResult() {
-    quizForm.style.display = 'none';
-    resultDiv.style.display = 'block';
-    scoreElement.textContent = score;
+    quizContainer.classList.add('hidden');
+    resultContainer.classList.remove('hidden');
+    scoreElement.textContent = `${score} / ${questions.length}`;
 }
-
-// Fake authentication (simulated)
-function startQuiz() {
-    const username = prompt("Enter your username to start the quiz:");
-    if (username) {
-        displayQuestion();
-        quizForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            checkAnswer();
-        });
-    } else {
-        alert("You need to enter a username to start the quiz!");
-    }
-}
-
-// Start quiz when the page is loaded
-document.addEventListener('DOMContentLoaded', startQuiz);

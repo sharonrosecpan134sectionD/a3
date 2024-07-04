@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Quiz</title>
+    <title>Interactive Quiz</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="quiz-container">
         <h1>Database Quiz</h1>
-        <div id="quiz">
-            <form id="quizForm">
-                <p id="question"></p>
-                <label><input type="radio" name="option" value="1"> <span id="option1"></span></label><br>
-                <label><input type="radio" name="option" value="2"> <span id="option2"></span></label><br>
-                <label><input type="radio" name="option" value="3"> <span id="option3"></span></label><br>
-                <label><input type="radio" name="option" value="4"> <span id="option4"></span></label><br>
-                <button type="submit">Submit Answer</button>
-            </form>
-            <p id="feedback"></p>
+        <div id="authentication">
+            <label for="username">Username:</label>
+            <input type="text" id="username">
+            <button id="auth-btn">Start Quiz</button>
         </div>
-        <div id="result">
-            <p>Your final score: <span id="score">0</span></p>
+        <div id="quiz" class="hidden">
+            <div id="question-container"></div>
+            <button id="next-btn" class="hidden">Next</button>
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="result" class="hidden">
+            <h2>Your Score: <span id="score"></span></h2>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
